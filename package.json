@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "module",
   "name": "hexforge",
   "version": "1.0.0",
@@ -9,6 +9,7 @@
     "url": "https://github.com/Chucky22Mendoza/hexforge"
   },
   "bin": {
+    "hexforge": "./bin/create-project.js",
     "hexforge-create-react": "./bin/create-project.js",
     "hexforge-module": "./bin/create-module.js",
     "hexforge-create-next": "./bin/create-next-project.js",

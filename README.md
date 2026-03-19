@@ -1,10 +1,10 @@
-﻿# ⚒️ hexforge
+# ⚒️ hexforge
 
 > **Scaffold production-ready React and Next.js projects powered by Hexagonal Architecture — in seconds.**
 
 [![npm version](https://img.shields.io/npm/v/hexforge?color=yellow&label=hexforge)](https://www.npmjs.com/package/hexforge)
-[![license](https://img.shields.io/npm/l/hexforge)](LICENSE)
-[![node](https://img.shields.io/node/v/hexforge)](https://nodejs.org)
+[![license](https://img.shields.io/npm/l/hexforge)](https://www.npmjs.com/package/hexforge)
+[![node](https://img.shields.io/node/v/hexforge)](https://www.npmjs.com/package/hexforge)
 
 ---
 
@@ -33,7 +33,7 @@ npm install -g hexforge
 Or use directly with `npx` without installing:
 
 ```bash
-npx hexforge hexforge-create-react my-app
+npx hexforge my-app
 ```
 
 ---

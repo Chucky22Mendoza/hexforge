@@ -1,6 +1,13 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to **hexforge** will be documented in this file.
+
+---
+
+## [1.0.1] — 2026-03-19
+
+### Fixed
+- Added a default `hexforge` executable to `package.json` so `npx hexforge <name>` works properly out of the box, defaulting to scaffolding a React project.
 
 ---
 
