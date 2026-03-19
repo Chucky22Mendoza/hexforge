@@ -1,0 +1,10 @@
+import type { <%= name %> } from "../domain/<%= name.toLowerCase() %>";
+import type { ResponseWrapper } from "../../shared/types/response-wrapper";
+
+export interface <%= name %>Repository {
+  getAll(): Promise<ResponseWrapper<<%= name %>[]>>;
+  getById(id: string): Promise<ResponseWrapper<<%= name %> | null>>;
+  create(<%= name.toLowerCase() %>: <%= name %>): Promise<ResponseWrapper<<%= name %> | null>>;
+  update(<%= name.toLowerCase() %>: <%= name %>): Promise<ResponseWrapper<<%= name %> | null>>;
+  delete(id: string): Promise<ResponseWrapper<boolean>>;
+}

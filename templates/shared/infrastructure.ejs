@@ -1,0 +1,21 @@
+import type { <%= name %>Repository } from "../repository/<%= name %>Repository";
+import type { <%= name %> } from "../domain/<%= name.toLowerCase() %>";
+import type { ResponseWrapper } from "../../shared/types/response-wrapper";
+
+export class API<%= name %>Repository implements <%= name %>Repository {
+  async getAll(): Promise<ResponseWrapper<<%= name %>[]>> {
+    throw new Error("Method not implemented.");
+  }
+  async getById(id: string): Promise<ResponseWrapper<<%= name %> | null>> {
+    throw new Error("Method not implemented.");
+  }
+  async create(<%= name.toLowerCase() %>: <%= name %>): Promise<ResponseWrapper<<%= name %> | null>> {
+    throw new Error("Method not implemented.");
+  }
+  async update(<%= name.toLowerCase() %>: <%= name %>): Promise<ResponseWrapper<<%= name %> | null>> {
+    throw new Error("Method not implemented.");
+  }
+  async delete(id: string): Promise<ResponseWrapper<boolean>> {
+    throw new Error("Method not implemented.");
+  }
+}

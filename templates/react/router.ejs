@@ -1,0 +1,17 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import <%= name %>ViewFactory from "../modules/<%= name.toLowerCase() %>/<%= name %>ViewFactory";
+import Layout from "../layouts/Layout";
+// @factory-imports — ⚠️ DO NOT REMOVE: used by factory-module to auto-inject imports
+
+export const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<<%= name %>ViewFactory />} />
+          {/* @factory-routes — ⚠️ DO NOT REMOVE: used by factory-module to auto-inject routes */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};

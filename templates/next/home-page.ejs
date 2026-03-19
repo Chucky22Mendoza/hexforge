@@ -1,0 +1,10 @@
+import type { Metadata } from 'next';
+import HomeViewFactory from '@/modules/home/HomeViewFactory';
+
+export const metadata: Metadata = {
+  title: 'Home',
+};
+
+export default function HomePage() {
+  return <HomeViewFactory />;
+}

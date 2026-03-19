@@ -1,0 +1,10 @@
+import type { Metadata } from 'next';
+import <%= name %>ViewFactory from '@/modules/<%= name.toLowerCase() %>/<%= name %>ViewFactory';
+
+export const metadata: Metadata = {
+  title: '<%= name %>',
+};
+
+export default function <%= name %>Page() {
+  return <<%= name %>ViewFactory />;
+}

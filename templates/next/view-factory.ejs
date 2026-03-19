@@ -1,0 +1,16 @@
+'use client';
+
+import React from 'react';
+import <%= name %> from "./sections/<%= name %>";
+import { LanguageProvider } from "../../context/LanguageContext";
+import translations from "./translations";
+
+function <%= name %>ViewFactory() {
+  return (
+    <LanguageProvider translations={translations}>
+      <<%= name %> />
+    </LanguageProvider>
+  );
+}
+
+export default <%= name %>ViewFactory;

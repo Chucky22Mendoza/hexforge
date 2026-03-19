@@ -1,0 +1,109 @@
+import { es } from 'date-fns/locale';
+import { differenceInYears, type Locale, format as formatDate } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+
+/**
+ * Determines if a person is a minor (under 18 years old) based on their birth date
+ * @param birthDate - The birth date as a string or Date object
+ * @returns true if the person is under 18 years old, false otherwise
+ */
+export const isMinor = (birthDate: string | Date | undefined): boolean =>
+  !birthDate ? false : differenceInYears(new Date(), new Date(birthDate)) < 18;
+
+/**
+ * Calculates the age in years from a birth date to today
+ * @param birthDate - The birth date as a string or Date object
+ * @returns The age in years, or 0 if birthDate is invalid
+ * @example
+ * calculateAge('1997-08-04') // Returns 28 (as of 2025-12-06)
+ * calculateAge(new Date(1997, 7, 4)) // Returns 28
+ */
+export const calculateAge = (birthDate: string | Date | undefined): number =>
+  !birthDate ? 0 : differenceInYears(new Date(), new Date(birthDate));
+
+/**
+ * Formats a date to 'Month Year' format in Spanish
+ * @param date - The date to format as a string or Date object
+ * @returns Formatted date string (e.g., "diciembre 2025")
+ * @example
+ * formatMonthYear('2025-12-06') // Returns "diciembre 2025"
+ */
+export const formatMonthYear = (date: string | Date): string => {
+  return formatDate(new Date(date), 'MMMM yyyy', { locale: es });
+};
+
+/**
+ * Formats a date to 'dd Month Year' format in Spanish
+ * @param date - The date to format as a string or Date object
+ * @returns Formatted date string (e.g., "06 diciembre 2025")
+ * @example
+ * formatFullDate('2025-12-06') // Returns "06 diciembre 2025"
+ */
+export const formatFullDate = (date: string | Date): string => {
+  return formatDate(new Date(date), 'dd MMMM yyyy', { locale: es });
+};
+
+/**
+ * Formats a date to 'HH:mm' format in Spanish
+ * @param date - The date to format as a string or Date object
+ * @returns Formatted time string (e.g., "14:30")
+ * @example
+ * formatTimeHour('2025-12-06T14:30:00') // Returns "14:30"
+ */
+export const formatTimeHour = (date: string | Date): string => {
+  return formatDate(new Date(date), 'HH:mm', { locale: es });
+};
+
+/**
+ * Formats a date to 'dd 'de' MMMM, YYYY' format in Spanish
+ * @param date - The date to format as a string or Date object
+ * @returns Formatted date string (e.g., "06 diciembre 2025")
+ * @example
+ * formatFullDate('2025-12-06') // Returns "06 diciembre 2025"
+ */
+export const formatDayMonthYear = (date: string | Date): string => {
+  return formatDate(new Date(date), "dd 'de' MMMM, yyyy", { locale: es });
+};
+
+/**
+ * Returns the current time plus one hour in HH:mm format
+ * @returns The current time plus one hour in HH:mm format
+ * @example
+ * getCurrentTimePlusOneHour() // Returns "14:30"
+ */
+export const getCurrentTimePlusOneHour = (): string => {
+  const now = new Date();
+  now.setHours(now.getHours() + 1);
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};
+
+export const formatTimeZone = ({
+  date,
+  format = 'dd/MM/yyyy HH:mm',
+  timeZone = 'America/Mexico_City',
+  locale = es,
+  isFormatting = true,
+}: {
+  date: string | Date;
+  format?: string;
+  isFormatting?: boolean;
+  timeZone?: string;
+  locale?: Locale;
+}): string | Date => {
+  const tzDate = toZonedTime(date, timeZone);
+  if (isFormatting) {
+    return formatDate(tzDate, format, { locale }) as string;
+  }
+  return tzDate;
+};
+
+export const mergeDateAndTime = (date: string, time: string): Date => {
+  const [year, month, day] = date.split('-').map(Number);
+  const [hours, minutes] = time.split(':').map(Number);
+
+  return new Date(year, month - 1, day, hours, minutes);
+};

@@ -1,0 +1,53 @@
+﻿{
+  "type": "module",
+  "name": "hexforge",
+  "version": "1.0.0",
+  "description": "CLI scaffolding tool for React and Next.js projects with Hexagonal Architecture",
+  "homepage": "https://www.npmjs.com/package/hexforge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Chucky22Mendoza/hexforge"
+  },
+  "bin": {
+    "hexforge-create-react": "./bin/create-project.js",
+    "hexforge-module": "./bin/create-module.js",
+    "hexforge-create-next": "./bin/create-next-project.js",
+    "hexforge-next-module": "./bin/create-next-module.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "hexagonal",
+    "architecture",
+    "cli",
+    "scaffolding",
+    "vite",
+    "typescript",
+    "hexforge-create-react",
+    "hexforge-create-next",
+    "hexforge-module",
+    "hexforge-next-module"
+  ],
+  "author": "Jesús Mendoza Verduzco",
+  "contributors": [
+    {
+      "name": "Jesús Mendoza Verduzco",
+      "email": "loginlock22@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "fs-extra": "^11.3.4"
+  }
+}
+

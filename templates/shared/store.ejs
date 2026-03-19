@@ -1,0 +1,20 @@
+import { create } from "zustand";
+import type { <%= name %> } from "../domain/<%= name.toLowerCase() %>";
+
+export interface <%= name %>State {
+  data: <%= name %>[];
+  loading: boolean;
+  error: string | null;
+  setData: (data: <%= name %>[]) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+}
+
+export const use<%= name %>Store = create<<%= name %>State>((set) => ({
+  data: [],
+  loading: false,
+  error: null,
+  setData: (data: <%= name %>[]) => set({ data }),
+  setLoading: (loading: boolean) => set({ loading }),
+  setError: (error: string | null) => set({ error }),
+}));

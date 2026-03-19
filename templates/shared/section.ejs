@@ -1,0 +1,13 @@
+import React from 'react';
+import { useLanguage } from "../../../context/LanguageContext";
+
+function <%= name %>() {
+  const { t } = useLanguage();
+  return (
+    <div>
+      <h1>{t("title")}</h1>
+    </div>
+  );
+}
+
+export default <%= name %>;
