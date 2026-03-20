@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "hexforge",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "CLI scaffolding tool for React and Next.js projects with Hexagonal Architecture",
   "homepage": "https://www.npmjs.com/package/hexforge",
   "repository": {
