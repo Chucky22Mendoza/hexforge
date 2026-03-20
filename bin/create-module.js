@@ -59,6 +59,7 @@ const SHARED = {
   es:              path.join(__dirname, '../templates/shared/es.ejs'),
   en:              path.join(__dirname, '../templates/shared/en.ejs'),
   config:          path.join(__dirname, '../templates/shared/config.ejs'),
+  moduleCss:       path.join(__dirname, '../templates/shared/module-css.ejs'),
 };
 
 // ---------------------------------------------------------------------------
@@ -86,8 +87,8 @@ const TEMPLATES = {
  * @param {string}      targetPath   - Absolute path where the output file will be written.
  * @returns {Promise<void>}
  */
-async function generateFile(name, templatePath, targetPath) {
-  const content = await ejs.renderFile(templatePath, { name });
+async function generateFile(name, templatePath, targetPath, useTailwind = false) {
+  const content = await ejs.renderFile(templatePath, { name, useTailwind });
   await fs.outputFile(targetPath, content);
 }
 
@@ -102,22 +103,30 @@ async function generateFile(name, templatePath, targetPath) {
  * @param {string} targetDir - Absolute path to the project's src/ directory.
  * @returns {Promise<void>}
  */
-export async function moduleFiles(name, targetDir) {
+export async function moduleFiles(name, targetDir, useTailwind = false) {
   const nameLower  = name.toLowerCase();
   const modulePath = path.join(targetDir, 'modules', nameLower);
 
-  await Promise.all([
-    generateFile(name, TEMPLATES.domain,         path.join(modulePath, 'domain',        `${nameLower}.ts`)),
-    generateFile(name, TEMPLATES.infrastructure,  path.join(modulePath, 'infrastructure', `API${name}Repository.ts`)),
-    generateFile(name, TEMPLATES.hook,            path.join(modulePath, 'hooks',         `use${name}.ts`)),
-    generateFile(name, TEMPLATES.section,         path.join(modulePath, 'sections',      `${name}.tsx`)),
-    generateFile(name, TEMPLATES.store,           path.join(modulePath, 'store',         `use${name}Store.ts`)),
-    generateFile(name, TEMPLATES.repository,      path.join(modulePath, 'repository',    `${name}Repository.ts`)),
-    generateFile(name, TEMPLATES.viewFactory,     path.join(modulePath,                  `${name}ViewFactory.tsx`)),
-    generateFile(name, TEMPLATES.es,              path.join(modulePath, 'translations',  'es.ts')),
-    generateFile(name, TEMPLATES.en,              path.join(modulePath, 'translations',  'en.ts')),
-    generateFile(name, TEMPLATES.translations,    path.join(modulePath, 'translations',  'index.ts')),
-  ]);
+  const promises = [
+    generateFile(name, TEMPLATES.domain,         path.join(modulePath, 'domain',        `${nameLower}.ts`), useTailwind),
+    generateFile(name, TEMPLATES.infrastructure,  path.join(modulePath, 'infrastructure', `API${name}Repository.ts`), useTailwind),
+    generateFile(name, TEMPLATES.hook,            path.join(modulePath, 'hooks',         `use${name}.ts`), useTailwind),
+    generateFile(name, TEMPLATES.section,         path.join(modulePath, 'sections',      `${name}.tsx`), useTailwind),
+    generateFile(name, TEMPLATES.store,           path.join(modulePath, 'store',         `use${name}Store.ts`), useTailwind),
+    generateFile(name, TEMPLATES.repository,      path.join(modulePath, 'repository',    `${name}Repository.ts`), useTailwind),
+    generateFile(name, TEMPLATES.viewFactory,     path.join(modulePath,                  `${name}ViewFactory.tsx`), useTailwind),
+    generateFile(name, TEMPLATES.es,              path.join(modulePath, 'translations',  'es.ts'), useTailwind),
+    generateFile(name, TEMPLATES.en,              path.join(modulePath, 'translations',  'en.ts'), useTailwind),
+    generateFile(name, TEMPLATES.translations,    path.join(modulePath, 'translations',  'index.ts'), useTailwind),
+  ];
+
+  if (!useTailwind) {
+    promises.push(
+      generateFile(name, TEMPLATES.moduleCss, path.join(modulePath, 'sections', `${name}.module.css`), useTailwind)
+    );
+  }
+
+  await Promise.all(promises);
 }
 
 /**
@@ -217,10 +226,10 @@ export async function generateLayout(targetDir) {
  * @param {string} targetDir - Absolute path to the project's src/ directory.
  * @returns {Promise<void>}
  */
-export async function initFiles(targetDir) {
+export async function initFiles(targetDir, useTailwind = false) {
   // Shared infrastructure files can be generated concurrently
   await Promise.all([
-    moduleFiles('Home', targetDir),
+    moduleFiles('Home', targetDir, useTailwind),
     generateResponseWrapper(targetDir),
     generateFetch(targetDir),
     generateDateUtils(targetDir),
@@ -232,6 +241,16 @@ export async function initFiles(targetDir) {
 
   // Router must run after Home module exists (it references HomeViewFactory)
   await generateRouter(targetDir, 'Home');
+}
+
+export async function detectTailwind(projectRoot) {
+  const pkgPath = path.join(projectRoot, 'package.json');
+  if (await fs.pathExists(pkgPath)) {
+    const pkg = await fs.readJson(pkgPath);
+    const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+    return !!deps['tailwindcss'];
+  }
+  return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -333,7 +352,9 @@ if (isMain) {
   console.log(`⚙️  Generating module: ${componentName}\n`);
 
   try {
-    await moduleFiles(componentName, targetDir);
+    const projectRoot = process.cwd();
+    const useTailwind = await detectTailwind(projectRoot);
+    await moduleFiles(componentName, targetDir, useTailwind);
     await injectModuleIntoRouter(componentName, targetDir);
     console.log(`\n✅ Module "${componentName}" created at src/modules/${componentName.toLowerCase()}`);
   } catch (err) {

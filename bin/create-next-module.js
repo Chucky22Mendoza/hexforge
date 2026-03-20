@@ -43,6 +43,7 @@ import {
   generateResponseWrapper,
   generateFetch,
   generateConfig,
+  detectTailwind,
 } from './create-module.js';
 import { printBanner } from './banner.js';
 
@@ -71,6 +72,7 @@ const SHARED = {
   responseWrapper: path.join(__dirname, '../templates/shared/response-wrapper.ejs'),
   fetch:          path.join(__dirname, '../templates/shared/fetch.ejs'),
   date:           path.join(__dirname, '../templates/shared/date.ejs'),
+  moduleCss:      path.join(__dirname, '../templates/shared/module-css.ejs'),
 };
 
 /** Next.js-specific templates — include 'use client' or App Router structure. */
@@ -94,8 +96,8 @@ const NEXT = {
  * @param {string} targetPath   - Absolute path where the output file will be written.
  * @returns {Promise<void>}
  */
-async function generateFile(name, templatePath, targetPath) {
-  const content = await ejs.renderFile(templatePath, { name });
+async function generateFile(name, templatePath, targetPath, useTailwind = false) {
+  const content = await ejs.renderFile(templatePath, { name, useTailwind });
   await fs.outputFile(targetPath, content);
 }
 
@@ -114,23 +116,31 @@ async function generateFile(name, templatePath, targetPath) {
  * @param {string} targetDir - Absolute path to the project's src/ directory.
  * @returns {Promise<void>}
  */
-export async function nextModuleFiles(name, targetDir) {
+export async function nextModuleFiles(name, targetDir, useTailwind = false) {
   const nameLower  = name.toLowerCase();
   const modulePath = path.join(targetDir, 'modules', nameLower);
 
-  await Promise.all([
-    generateFile(name, SHARED.domain,         path.join(modulePath, 'domain',        `${nameLower}.ts`)),
-    generateFile(name, SHARED.infrastructure,  path.join(modulePath, 'infrastructure', `API${name}Repository.ts`)),
-    generateFile(name, SHARED.hook,            path.join(modulePath, 'hooks',         `use${name}.ts`)),
-    generateFile(name, SHARED.section,         path.join(modulePath, 'sections',      `${name}.tsx`)),
-    generateFile(name, SHARED.store,           path.join(modulePath, 'store',         `use${name}Store.ts`)),
-    generateFile(name, SHARED.repository,      path.join(modulePath, 'repository',    `${name}Repository.ts`)),
+  const promises = [
+    generateFile(name, SHARED.domain,         path.join(modulePath, 'domain',        `${nameLower}.ts`), useTailwind),
+    generateFile(name, SHARED.infrastructure,  path.join(modulePath, 'infrastructure', `API${name}Repository.ts`), useTailwind),
+    generateFile(name, SHARED.hook,            path.join(modulePath, 'hooks',         `use${name}.ts`), useTailwind),
+    generateFile(name, SHARED.section,         path.join(modulePath, 'sections',      `${name}.tsx`), useTailwind),
+    generateFile(name, SHARED.store,           path.join(modulePath, 'store',         `use${name}Store.ts`), useTailwind),
+    generateFile(name, SHARED.repository,      path.join(modulePath, 'repository',    `${name}Repository.ts`), useTailwind),
     // ↓ Next.js-specific: 'use client' directive required for App Router
-    generateFile(name, NEXT.viewFactory,       path.join(modulePath,                  `${name}ViewFactory.tsx`)),
-    generateFile(name, SHARED.es,              path.join(modulePath, 'translations',  'es.ts')),
-    generateFile(name, SHARED.en,              path.join(modulePath, 'translations',  'en.ts')),
-    generateFile(name, SHARED.translations,    path.join(modulePath, 'translations',  'index.ts')),
-  ]);
+    generateFile(name, NEXT.viewFactory,       path.join(modulePath,                  `${name}ViewFactory.tsx`), useTailwind),
+    generateFile(name, SHARED.es,              path.join(modulePath, 'translations',  'es.ts'), useTailwind),
+    generateFile(name, SHARED.en,              path.join(modulePath, 'translations',  'en.ts'), useTailwind),
+    generateFile(name, SHARED.translations,    path.join(modulePath, 'translations',  'index.ts'), useTailwind),
+  ];
+
+  if (!useTailwind) {
+    promises.push(
+      generateFile(name, SHARED.moduleCss, path.join(modulePath, 'sections', `${name}.module.css`), useTailwind)
+    );
+  }
+
+  await Promise.all(promises);
 }
 
 /**
@@ -202,10 +212,10 @@ export async function generateNextLanguageContext(targetDir) {
  * @param {string} name        - PascalCase Project Name (e.g. "My App").
  * @returns {Promise<void>}
  */
-export async function initNextFiles(targetDir, name) {
+export async function initNextFiles(targetDir, name, useTailwind = false) {
   // All independent files generated concurrently
   await Promise.all([
-    nextModuleFiles('Home', targetDir),
+    nextModuleFiles('Home', targetDir, useTailwind),
     generateResponseWrapper(targetDir),
     generateFetch(targetDir),
     generateDateUtils(targetDir),
@@ -243,7 +253,9 @@ if (isMain) {
   console.log(`⚙️  Generating Next.js module: ${componentName}\n`);
 
   try {
-    await nextModuleFiles(componentName, targetDir);
+    const projectRoot = process.cwd();
+    const useTailwind = await detectTailwind(projectRoot);
+    await nextModuleFiles(componentName, targetDir, useTailwind);
     await generateNextPage(componentName, targetDir);
     console.log(`\n✅ Module "${componentName}" created at src/modules/${componentName.toLowerCase()}`);
     console.log(`🔗 Page created at src/app/${componentName.toLowerCase()}/page.tsx`);

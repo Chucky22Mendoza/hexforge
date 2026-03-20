@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 /**
  * ╔══════════════════════════════════════════════════════════════════╗
@@ -120,6 +120,11 @@ async function main() {
   // --- Step 4: Tailwind CSS (optional) -------------------------------------
   if (useTailwind) {
     runStep('🎨 Installing Tailwind CSS...', 'npm install tailwindcss @tailwindcss/vite');
+    const viteConfig = `import { defineConfig } from 'vite'\nimport react from '@vitejs/plugin-react'\nimport tailwindcss from '@tailwindcss/vite'\n\nexport default defineConfig({\n  plugins: [\n    tailwindcss(),\n    react(),\n  ],\n})\n`;
+    fs.writeFileSync(path.join(projectPath, 'vite.config.ts'), viteConfig);
+    fs.writeFileSync(path.join(projectPath, 'src', 'index.css'), '@import "tailwindcss";\n');
+  } else {
+    fs.writeFileSync(path.join(projectPath, 'src', 'index.css'), 'body { margin: 0; padding: 0; }\n');
   }
 
   // --- Step 5: Zustand (global state) --------------------------------------
@@ -155,7 +160,7 @@ async function main() {
 
   // --- Step 8: Generate files from templates -------------------------------
   console.log('\n📄 Generating files from templates...');
-  await initFiles(srcPath);
+  await initFiles(srcPath, useTailwind);
 
   // --- Done ----------------------------------------------------------------
   console.log(`\n✅ Project "${projectName}" created successfully!`);

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 /**
  * ╔══════════════════════════════════════════════════════════════════╗
@@ -158,7 +158,7 @@ async function main() {
   // --- Step 5: Generate files from templates --------------------------------
   // This overwrites app/page.tsx and app/layout.tsx with hexforge versions.
   console.log('\n📄 Generating files from templates...');
-  await initNextFiles(srcPath, projectName);
+  await initNextFiles(srcPath, projectName, useTailwind);
 
   // --- Done -----------------------------------------------------------------
   console.log(`\n✅ Next.js project "${projectName}" created successfully!`);
