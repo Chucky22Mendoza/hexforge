@@ -5,7 +5,7 @@
  * ║                 hexforge — create-project.js                    ║
  * ║         Hexagonal Architecture Scaffolding for React            ║
  * ║                                                                  ║
- * ║  CLI command : hexforge-create-react <project-name>            ║
+ * ║  CLI command : hexforge-create <project-name>            ║
  * ║  Author      : Jesús Mendoza Verduzco                           ║
  * ║  License     : ISC                                              ║
  * ║  Version     : 1.0.0                                            ║
@@ -22,8 +22,8 @@
  *   5. Generates all initial files from EJS templates via create-module.js
  *
  * Usage:
- *   hexforge-create-react <project-name>
- *   hexforge-create-react my-app
+ *   hexforge-create <project-name>
+ *   hexforge-create my-app
  */
 
 import { execSync }       from 'child_process';
@@ -86,7 +86,7 @@ function runStep(label, command, opts = {}) {
  */
 async function main() {
   printBanner({
-    command     : 'hexforge-create-react',
+    command     : 'hexforge-create',
     description : 'Hexagonal React project generator',
   });
 

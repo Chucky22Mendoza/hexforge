@@ -5,7 +5,7 @@
  * ║             hexforge — create-next-project.js                   ║
  * ║       Hexagonal Architecture Scaffolding for Next.js            ║
  * ║                                                                  ║
- * ║  CLI command : hexforge-create-next <project-name>                  ║
+ * ║  CLI command : hexforge-create next <project-name>                  ║
  * ║  Author      : Jesús Mendoza Verduzco                           ║
  * ║  License     : ISC                                              ║
  * ║  Version     : 1.0.0                                            ║
@@ -30,8 +30,8 @@
  *   - New modules create src/app/<name>/page.tsx instead of Router.tsx injection
  *
  * Usage:
- *   hexforge-create-next <project-name>
- *   hexforge-create-next my-next-app
+ *   hexforge-create next <project-name>
+ *   hexforge-create next my-next-app
  */
 
 import { execSync }        from 'child_process';
@@ -94,7 +94,7 @@ function runStep(label, command, opts = {}) {
  */
 async function main() {
   printBanner({
-    command     : 'hexforge-create-next',
+    command     : 'hexforge-create next',
     description : 'Next.js hexagonal project generator',
   });
 
@@ -168,11 +168,11 @@ async function main() {
    npm run dev
 
 ⚒️ Add a new module anytime:
-   hexforge-next-module <ModuleName>
+   hexforge-module <ModuleName>
 
    Example:
-   hexforge-next-module Product    → creates src/modules/product/ + src/app/product/page.tsx
-   hexforge-next-module Dashboard  → creates src/modules/dashboard/ + src/app/dashboard/page.tsx
+   hexforge-module Product    → creates src/modules/product/ + src/app/product/page.tsx
+   hexforge-module Dashboard  → creates src/modules/dashboard/ + src/app/dashboard/page.tsx
 `);
 }
 

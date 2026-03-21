@@ -5,7 +5,7 @@
  * ║             hexforge — create-next-module.js                    ║
  * ║       Hexagonal Architecture Scaffolding for Next.js            ║
  * ║                                                                  ║
- * ║  CLI command : hexforge-next-module <ModuleName>                    ║
+ * ║  CLI command : hexforge-module <ModuleName>                    ║
  * ║  Author      : Jesús Mendoza Verduzco                           ║
  * ║  License     : ISC                                              ║
  * ║  Version     : 1.0.0                                            ║
@@ -229,7 +229,7 @@ export async function initNextFiles(targetDir, name, useTailwind = false) {
 }
 
 // ---------------------------------------------------------------------------
-// CLI entry-point — only runs when invoked directly as `hexforge-next-module <Name>`
+// CLI entry-point — only runs when invoked directly as `hexforge-module <Name>`
 // ---------------------------------------------------------------------------
 const isMain = import.meta.url === pathToFileURL(fs.realpathSync(process.argv[1])).href;
 
@@ -237,12 +237,12 @@ if (isMain) {
   const moduleName = process.argv[2];
 
   printBanner({
-    command     : 'hexforge-next-module',
+    command     : 'hexforge-module',
     description : 'Next.js hexagonal module generator',
   });
 
   if (!moduleName) {
-    console.error('❌ Module name is required.\n   Usage: hexforge-next-module <ModuleName>\n   Example: hexforge-next-module Product');
+    console.error('❌ Module name is required.\n   Usage: hexforge-module <ModuleName>\n   Example: hexforge-module Product');
     process.exit(1);
   }
 

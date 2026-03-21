@@ -4,6 +4,29 @@ All notable changes to **hexforge** will be documented in this file.
 
 ---
 
+## [1.2.0] — 2026-03-21
+
+### ♻️ CLI Restructure & Simplification
+- **Unified Scaffold Command**: Merged `hexforge-create-react` and `hexforge-create-next` into a single intuitive `hexforge-create [react|next] <name>` command.
+- **Smart Module Command**: The `hexforge-module <Name>` command now automatically detects whether it is running within a React or Next.js project and applies the correct template generation.
+- **Clean Environment**: Reduced the number of exposed executable binaries in `package.json` for a more organized developer experience.
+
+### ✨ Features
+- **Global Helper Flags**: Added elegant, visually pleasing terminal output for `-v` / `--version` to check CLI versions and `-h` / `--help` to easily preview the CLI signature directly in the terminal.
+- **Project Boundary Safeguards**: The `hexforge-module` generator now intelligently aborts execution to prevent unintended scaffolding if triggered outside a valid React or Next.js project root.
+
+---
+
+## [1.1.0] — 2026-03-21
+
+### ✨ Features
+- **Modern Minimalist UI**: Enhanced the initial module scaffolding (`section.ejs`) to showcase a polished, modern, and branded design right out of the box.
+- **Conditional Styling Ecosystem**: Added flexible styling support across all generated modules, allowing components to adapt to user preferences.
+- **CSS Modules Fallback**: Introduced runtime generation of scoped `*.module.css` files for module components when users opt out of Tailwind CSS.
+- **CLI Workflow Updates**: CLI toolkits securely assess and propagate the `useTailwind` configuration to EJS templates, ensuring consistent styling generation across React and Next.js targets.
+
+---
+
 ## [1.0.1] — 2026-03-19
 
 ### Fixed

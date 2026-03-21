@@ -1,4 +1,4 @@
-﻿/**
+/**
  * banner.js — hexforge terminal branding
  *
  * Prints a styled ASCII banner to stdout whenever a hexforge command starts.
@@ -34,10 +34,14 @@ const c = (code, text) => `${code}${text}${RESET}`;
 // Banner data — single source of truth for CLI metadata
 // ---------------------------------------------------------------------------
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pkgJson = require('../package.json');
+
 const PKG = {
-  version : '1.0.0',
-  author  : 'Jesús Mendoza Verduzco',
-  license : 'ISC',
+  version : pkgJson.version,
+  author  : pkgJson.author || 'Jesús Mendoza Verduzco',
+  license : pkgJson.license || 'ISC',
   repo    : 'npmjs.com/package/hexforge',
 };
 
@@ -120,4 +124,35 @@ export function printBanner({ command = '', description = '' } = {}) {
   ];
 
   console.log(lines.join('\n'));
+}
+
+/**
+ * Prints the hexforge version block.
+ */
+export function printVersion() {
+  const bee  = c(YELLOW, '⚒️');
+  const logo = c(BOLD + YELLOW, 'hexforge');
+  console.log(`\n  ${bee}  ${logo}  ${c(GRAY, `v${PKG.version}`)}\n`);
+}
+
+/**
+ * Prints the CLI help menu formatting it elegantly.
+ */
+export function printHelp() {
+  printBanner({ command: 'help', description: 'Available commands and options' });
+  
+  console.log(`
+${c(BOLD + CYAN, 'Commands:')}
+  ${c(YELLOW, 'hexforge-create')} [react|next] <name>  Scaffolds a new project. Defaults to React.
+  ${c(YELLOW, 'hexforge-module')} <ModuleName>         Generates a new module inside an existing project.
+
+${c(BOLD + CYAN, 'Options:')}
+  ${c(WHITE, '-v, --version')}                        Show the current hexforge version.
+  ${c(WHITE, '-help, --help, -h')}                    Show this help message.
+
+${c(BOLD + CYAN, 'Examples:')}
+  npx hexforge-create my-react-app
+  npx hexforge-create next my-next-app
+  npx hexforge-module User
+`);
 }
