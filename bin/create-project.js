@@ -170,11 +170,11 @@ async function main() {
    npm run dev
 
 ⚒️ Add a new module anytime:
-   hexforge-module <ModuleName>
+   npx hexforge module <ModuleName>
 
    Example:
-   hexforge-module Product     → creates src/modules/product/ and registers the route
-   hexforge-module Dashboard   → creates src/modules/dashboard/ and registers the route
+   npx hexforge module Product     → creates src/modules/product/ and registers the route
+   npx hexforge module Dashboard   → creates src/modules/dashboard/ and registers the route
 `);
 }
 

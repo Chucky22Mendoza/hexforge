@@ -168,11 +168,11 @@ async function main() {
    npm run dev
 
 ⚒️ Add a new module anytime:
-   hexforge-module <ModuleName>
+   npx hexforge module <ModuleName>
 
    Example:
-   hexforge-module Product    → creates src/modules/product/ + src/app/product/page.tsx
-   hexforge-module Dashboard  → creates src/modules/dashboard/ + src/app/dashboard/page.tsx
+   npx hexforge module Product    → creates src/modules/product/ + src/app/product/page.tsx
+   npx hexforge module Dashboard  → creates src/modules/dashboard/ + src/app/dashboard/page.tsx
 `);
 }
 

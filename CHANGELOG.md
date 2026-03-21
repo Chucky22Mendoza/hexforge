@@ -4,16 +4,29 @@ All notable changes to **hexforge** will be documented in this file.
 
 ---
 
+## [1.3.1] — 2026-03-21
+
+### 🐛 Fixed
+- **Npx Registry Resolution**: Fixed an issue where executing `npx hexforge-create` or `npx hexforge-module` natively would force npm to search the public registry for non-existent packages.
+- **Centralized Router**: Introduced a master entrypoint router (`bin/hexforge.js`) internally resolving all commands to prevent package routing bugs when executing from the environment.
+
+### 💅 Refactored
+- **Strict CLI Syntax**: The CLI syntax has been strictly simplified and standardized. The legacy `create` verb has been fully dropped in favor of absolute, clean minimalism:
+  - **Create App**: `npx hexforge [react|next] <name>`
+  - **Add Module**: `npx hexforge module <name>`
+
+---
+
 ## [1.2.0] — 2026-03-21
 
 ### ♻️ CLI Restructure & Simplification
-- **Unified Scaffold Command**: Merged `hexforge-create-react` and `hexforge-create-next` into a single intuitive `hexforge-create [react|next] <name>` command.
-- **Smart Module Command**: The `hexforge-module <Name>` command now automatically detects whether it is running within a React or Next.js project and applies the correct template generation.
+- **Unified Scaffold Command**: Merged `hexforge-create-react` and `hexforge-create-next` into a single intuitive `hexforge [react|next] <name>` command, omitting the need for the `create` verb entirely.
+- **Smart Module Command**: The `hexforge module <Name>` command now automatically detects whether it is running within a React or Next.js project and applies the correct template generation.
 - **Clean Environment**: Reduced the number of exposed executable binaries in `package.json` for a more organized developer experience.
 
 ### ✨ Features
 - **Global Helper Flags**: Added elegant, visually pleasing terminal output for `-v` / `--version` to check CLI versions and `-h` / `--help` to easily preview the CLI signature directly in the terminal.
-- **Project Boundary Safeguards**: The `hexforge-module` generator now intelligently aborts execution to prevent unintended scaffolding if triggered outside a valid React or Next.js project root.
+- **Project Boundary Safeguards**: The `hexforge module` generator now intelligently aborts execution to prevent unintended scaffolding if triggered outside a valid React or Next.js project root.
 
 ---
 
@@ -93,7 +106,7 @@ modules/<name>/
 
 ### 🌟 Features
 
-- **Auto router injection** (React) — `hexforge-module` reads `Router.tsx` and inserts the new `import` and `<Route>` automatically using anchor comments:
+- **Auto router injection** (React) — `hexforge module` reads `Router.tsx` and inserts the new `import` and `<Route>` automatically using anchor comments:
   ```
   // @factory-imports — ⚠️ DO NOT REMOVE
   {/* @factory-routes — ⚠️ DO NOT REMOVE */}

@@ -9,7 +9,7 @@
     "url": "https://github.com/Chucky22Mendoza/hexforge"
   },
   "bin": {
-    "hexforge": "./bin/hexforge-create.js",
+    "hexforge": "./bin/hexforge.js",
     "hexforge-create": "./bin/hexforge-create.js",
     "hexforge-module": "./bin/hexforge-module.js"
   },

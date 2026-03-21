@@ -143,16 +143,16 @@ export function printHelp() {
   
   console.log(`
 ${c(BOLD + CYAN, 'Commands:')}
-  ${c(YELLOW, 'hexforge-create')} [react|next] <name>  Scaffolds a new project. Defaults to React.
-  ${c(YELLOW, 'hexforge-module')} <ModuleName>         Generates a new module inside an existing project.
+  ${c(YELLOW, 'hexforge')} [react|next] <name>         Scaffolds a new project. Defaults to React.
+  ${c(YELLOW, 'hexforge module')} <ModuleName>         Generates a new module inside an existing project.
 
 ${c(BOLD + CYAN, 'Options:')}
   ${c(WHITE, '-v, --version')}                        Show the current hexforge version.
   ${c(WHITE, '-help, --help, -h')}                    Show this help message.
 
 ${c(BOLD + CYAN, 'Examples:')}
-  npx hexforge-create my-react-app
-  npx hexforge-create next my-next-app
-  npx hexforge-module User
+  npx hexforge my-react-app
+  npx hexforge next my-next-app
+  npx hexforge module User
 `);
 }

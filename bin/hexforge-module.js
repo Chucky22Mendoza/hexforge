@@ -30,7 +30,7 @@ if (args[0] === 'module') args.shift();
 const moduleName = args[0];
 
 if (!moduleName) {
-  console.error('❌ Module name is required.\n   Usage: npx hexforge-module <ModuleName>\n   Example: npx hexforge-module Product');
+  console.error('❌ Module name is required.\n   Usage: npx hexforge module <ModuleName>\n   Example: npx hexforge module Product');
   process.exit(1);
 }
 

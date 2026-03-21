@@ -28,8 +28,6 @@ if (args[0] === '-help' || args[0] === '--help' || args[0] === '-h' || args.leng
   process.exit(0);
 }
 
-if (args[0] === 'create') args.shift();
-
 if (args[0] === 'next' || args[0] === 'react') {
   framework = args[0];
   projectName = args[1];
@@ -38,7 +36,7 @@ if (args[0] === 'next' || args[0] === 'react') {
 }
 
 if (!projectName) {
-  console.error('❌ Project name is required.\n   Usage: npx hexforge-create [react|next] <ProjectName>\n   Example: npx hexforge-create next my-app\n   Example: npx hexforge-create my-react-app');
+  console.error('❌ Project name is required.\n   Usage: npx hexforge [react|next] <ProjectName>\n   Example: npx hexforge next my-app\n   Example: npx hexforge my-react-app');
   process.exit(1);
 }
 

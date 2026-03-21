@@ -41,8 +41,8 @@ npx hexforge my-app
 
 | Command | Description |
 |---|---|
-| `hexforge-create [react/next] <name>` | Create a new project. Defaults to `react` if omitted. |
-| `hexforge-module <ModuleName>` | Add a new module. Auto-detects React/Next.js project environment. |
+| `hexforge [react/next] <name>` | Create a new project. Defaults to `react` if omitted. |
+| `hexforge module <ModuleName>` | Add a new module. Auto-detects React/Next.js project environment. |
 
 ### Global Options
 
@@ -51,7 +51,7 @@ npx hexforge my-app
 | `-v`, `--version` | Print the current CLI version in a styled ASCII banner |
 | `-h`, `--help` | Display the formatted help menu with command usage and examples |
 
-> **Note**: `hexforge-module` acts intelligently based on your current project root. It will safely abort if run outside a valid React or Next.js project to prevent stray files.
+> **Note**: `hexforge module` acts intelligently based on your current project root. It will safely abort if run outside a valid React or Next.js project to prevent stray files.
 > You can also run `npx hexforge [react/next] <name>` directly.
 
 ---
@@ -61,7 +61,7 @@ npx hexforge my-app
 ### Create a project
 
 ```bash
-hexforge-create my-app
+npx hexforge my-app
 ```
 
 The CLI will ask:
@@ -86,7 +86,7 @@ npm run dev
 Run inside the project root:
 
 ```bash
-hexforge-module Product
+hexforge module Product
 ```
 
 This generates:
@@ -115,7 +115,7 @@ src/
 ### Create a project
 
 ```bash
-hexforge-create next my-next-app
+npx hexforge next my-next-app
 ```
 
 The CLI will ask:
@@ -140,7 +140,7 @@ npm run dev
 Run inside the project root:
 
 ```bash
-hexforge-module Product
+hexforge module Product
 ```
 
 This generates:
@@ -280,12 +280,12 @@ Your choice determines how all future modules are styled:
 
 ## Router Auto-Injection (React)
 
-When you run `hexforge-module`, the CLI automatically adds the import and route to `Router.tsx` using two anchor comments:
+When you run `hexforge module`, the CLI automatically adds the import and route to `Router.tsx` using two anchor comments:
 
 ```tsx
-// @factory-imports — ⚠️ DO NOT REMOVE: used by hexforge-module to auto-inject imports
+// @factory-imports — ⚠️ DO NOT REMOVE: used by hexforge module to auto-inject imports
 
-{/* @factory-routes — ⚠️ DO NOT REMOVE: used by hexforge-module to auto-inject routes */}
+{/* @factory-routes — ⚠️ DO NOT REMOVE: used by hexforge module to auto-inject routes */}
 ```
 
 > **Warning:** Do not remove these comments or the auto-injection will be skipped.
